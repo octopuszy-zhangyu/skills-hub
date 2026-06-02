@@ -330,6 +330,65 @@ skills-hub/
 
 ---
 
+## 🔒 Security & Privacy (MANDATORY)
+
+**This repository is PUBLIC on GitHub. NEVER commit sensitive information.**
+
+### What NOT to Commit
+
+| Type | Examples | Why |
+|------|----------|-----|
+| **API Keys** | OpenAI, Anthropic, GitHub tokens | Anyone can use them |
+| **Passwords** | Any account password | Account takeover |
+| **Private Keys** | SSH, GPG, SSL certificates | Identity theft |
+| **Personal Info** | Real names, addresses, phone numbers | Privacy violation |
+| **Local Paths** | `C:\Users\...`, `/home/...` | Reveals system structure |
+| **Environment** | `.env` files with secrets | Exposes all credentials |
+
+### Pre-Commit Security Checklist
+
+- [ ] No API keys or tokens in any file
+- [ ] No passwords or credentials
+- [ ] No personal contact information
+- [ ] No local file paths (use relative paths only)
+- [ ] No `.env` files staged
+- [ ] No `.pem`, `.key`, or certificate files
+- [ ] Run `git diff --cached` to review all staged changes
+
+### .gitignore Protection
+
+The `.gitignore` file blocks common sensitive files:
+- `.env` files (environment variables)
+- `*.pem`, `*.key`, `*.crt` (certificates)
+- `*token*`, `*secret*`, `*credential*` (secrets)
+- `*password*`, `*passwd*` (passwords)
+
+### If You Accidentally Commit a Secret
+
+```bash
+# 1. Remove from git history (rewrites history!)
+git filter-branch --force --index-filter \
+  "git rm --cached --ignore-unmatch PATH_TO_FILE" \
+  --prune-empty --tag-name-filter cat -- --all
+
+# 2. Force push (requires --force)
+git push origin --force --all
+
+# 3. Rotate the compromised credential immediately!
+```
+
+**⚠️ 如果 secret 已经推送到 GitHub，立即在对应平台轮换密钥，不要只删除文件。**
+
+### Security Review Process
+
+Before every push:
+1. Run `git diff --cached` to review all staged changes
+2. Check for any hardcoded values that look like secrets
+3. Verify `.env` files are not staged
+4. Confirm no personal information is exposed
+
+---
+
 ## 📋 Current Skills
 
 <!-- SYNC_SKILLS_START -->

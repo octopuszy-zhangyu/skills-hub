@@ -142,6 +142,17 @@ python scripts/sync.py --sync
 
 欢迎提交 PR 或创建 Issue！
 
+## 🔒 安全声明
+
+**本仓库是公开的。** 请确保不提交任何敏感信息：
+
+- ❌ API 密钥、Token、密码
+- ❌ 个人隐私信息
+- ❌ 本地文件路径
+- ❌ `.env` 文件
+
+提交前请运行 `git diff --cached` 审查所有变更。
+
 ## 📄 许可证
 
 MIT License

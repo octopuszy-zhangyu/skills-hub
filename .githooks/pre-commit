@@ -1,16 +1,103 @@
 #!/bin/bash
-# Pre-commit hook: Auto-sync all platform configs before commit
+# Pre-commit hook: Auto-sync + Security scan
 #
 # 安装方式:
 #   git config core.hooksPath .githooks
 #
-# 这样每次 git commit 前都会自动运行 sync.py，
-# 确保 CLAUDE.md, AGENTS.md, GEMINI.md, README.md, openclaw.plugin.json
-# 始终与 skills/ 目录保持同步。
+# 功能:
+# 1. 安全扫描 - 检测敏感信息泄露
+# 2. 自动同步 - 更新所有平台配置文件
 
-echo "🔄 [pre-commit] Auto-syncing cross-platform configs..."
+echo "🔒 [pre-commit] Security scan..."
 
 cd "$(git rev-parse --show-toplevel)" || exit 1
+
+# ============================================================
+#  Phase 1: Security Scan
+# ============================================================
+
+# Files to EXCLUDE from security scan (security infrastructure itself)
+EXCLUDE_PATTERNS=(
+    "\.githooks/"
+    "\.gitignore"
+    "CLAUDE\.md"
+    "README\.md"
+    "AGENTS\.md"
+    "GEMINI\.md"
+    "LICENSE"
+    "SKILL\.md"
+)
+
+# Check if a file should be excluded from scan
+should_exclude() {
+    local file="$1"
+    for pattern in "${EXCLUDE_PATTERNS[@]}"; do
+        if echo "$file" | grep -qE "$pattern"; then
+            return 0
+        fi
+    done
+    return 1
+}
+
+SENSITIVE_PATTERNS=(
+    "ghp_[a-zA-Z0-9]{36,}"
+    "sk-[a-zA-Z0-9]{20,}"
+    "sk-ant-[a-zA-Z0-9]{20,}"
+)
+
+BLOCKED=0
+
+# Get list of staged files
+STAGED_FILES=$(git diff --cached --name-only)
+
+# Check for .env files staged (always block these)
+ENV_FILES=$(echo "$STAGED_FILES" | grep -E "^\.env" || true)
+if [ -n "$ENV_FILES" ]; then
+    echo "❌ [SECURITY] .env files cannot be committed:"
+    echo "$ENV_FILES" | while read -r file; do
+        echo "   - $file"
+    done
+    BLOCKED=1
+fi
+
+# Check staged files for sensitive patterns (excluding security docs)
+echo "$STAGED_FILES" | while read -r file; do
+    if should_exclude "$file"; then
+        continue
+    fi
+
+    for pattern in "${SENSITIVE_PATTERNS[@]}"; do
+        if grep -l -i -E "$pattern" "$file" 2>/dev/null; then
+            echo "❌ [SECURITY] Found potential sensitive data in: $file"
+            BLOCKED=1
+        fi
+    done
+done
+
+# Check for URLs with embedded credentials
+CRED_URLS=$(git diff --cached | grep -E "https?://[^:]+:[^@]+@" || true)
+if [ -n "$CRED_URLS" ]; then
+    echo "❌ [SECURITY] Found URLs with embedded credentials"
+    BLOCKED=1
+fi
+
+if [ "$BLOCKED" -eq 1 ]; then
+    echo ""
+    echo "⚠️  Commit blocked due to security concerns."
+    echo "   Remove sensitive data and try again."
+    echo ""
+    echo "   If this is a false positive, use --no-verify to skip:"
+    echo "   git commit --no-verify -m 'message'"
+    exit 1
+fi
+
+echo "✅ [pre-commit] Security scan passed"
+
+# ============================================================
+#  Phase 2: Auto-Sync
+# ============================================================
+
+echo "🔄 [pre-commit] Auto-syncing cross-platform configs..."
 
 if command -v python3 &> /dev/null; then
     python3 scripts/sync.py --sync
