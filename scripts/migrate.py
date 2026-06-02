@@ -16,6 +16,13 @@ import os
 import shutil
 import sys
 
+# Windows encoding fix
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")  # type: ignore
+    except Exception:
+        pass
+
 HUB_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SKILLS_DIR = os.path.join(HUB_ROOT, "skills")
 SOURCE_DIRS = [

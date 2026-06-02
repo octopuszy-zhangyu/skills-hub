@@ -455,6 +455,7 @@ Before every push:
 
 <!-- SYNC_SKILLS_START -->
 - **hello-world** — Use when testing the skills hub cross-platform sync system o...
+- **weather-forecast** — Use when users ask about weather, weather forecast, temperat...
 <!-- SYNC_SKILLS_END -->
 
 ---

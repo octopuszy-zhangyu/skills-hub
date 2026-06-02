@@ -4,11 +4,12 @@
 
 ## 技能列表
 
-当前共 1 个技能：
+当前共 2 个技能：
 
 | Skill | 描述 | 测试 |
 |-------|------|-------|
 | [hello-world](skills/hello-world/) | Use when testing the skills hub cross-platform sync system o... | ❌ |
+| [weather-forecast](skills/weather-forecast/) | Use when users ask about weather, weather forecast, temperat... | ✅ |
 
 ## 安装方式
 
