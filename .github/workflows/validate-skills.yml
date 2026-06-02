@@ -6,6 +6,7 @@ on:
     paths:
       - 'skills/**'
       - 'openclaw.plugin.json'
+      - '.github/workflows/validate-skills.yml'
   pull_request:
     branches: [main, master]
     paths:
@@ -26,65 +27,8 @@ jobs:
       - name: Install dependencies
         run: pip install pyyaml
 
-      - name: Run Sync & Validation Script
-        run: python scripts/sync.py
-
-      - name: Validate Skill Structure
-        run: |
-          errors=0
-          for dir in skills/*/; do
-            name=$(basename "$dir")
-            if [ ! -f "${dir}SKILL.md" ]; then
-              echo "❌ $name: Missing SKILL.md"
-              errors=$((errors + 1))
-              continue
-            fi
-            echo "✅ $name: Has SKILL.md"
-          done
-          if [ $errors -gt 0 ]; then
-            echo "Found $errors errors"
-            exit 1
-          fi
-          echo "All skills validated successfully"
-
-      - name: Validate YAML Frontmatter
-        run: |
-          errors=0
-          for skillfile in skills/*/SKILL.md; do
-            name=$(basename "$(dirname "$skillfile")")
-            python3 -c "
-import yaml, sys
-with open('$skillfile') as f:
-    content = f.read()
-parts = content.split('---', 2)
-if len(parts) < 3:
-    print('❌ $name: Invalid YAML frontmatter')
-    sys.exit(1)
-try:
-    meta = yaml.safe_load(parts[1])
-    if not isinstance(meta, dict):
-        print('❌ $name: Frontmatter is not a dictionary')
-        sys.exit(1)
-    if 'name' not in meta:
-        print('❌ $name: Missing required field: name')
-        sys.exit(1)
-    if 'description' not in meta:
-        print('❌ $name: Missing required field: description')
-        sys.exit(1)
-    if not meta['description'].startswith('Use when'):
-        print('❌ $name: description should start with \"Use when...\"')
-        sys.exit(1)
-    print('✅ $name: Valid frontmatter')
-except yaml.YAMLError as e:
-    print(f'❌ $name: YAML error: {e}')
-    sys.exit(1)
-" || errors=$((errors + 1))
-          done
-          if [ $errors -gt 0 ]; then
-            echo "Found $errors errors"
-            exit 1
-          fi
-          echo "All frontmatter validated successfully"
+      - name: Validate YAML Frontmatter & Plugin JSON
+        run: python scripts/ci_validate.py
 
       - name: Validate Skill Names
         run: |
@@ -92,10 +36,10 @@ except yaml.YAMLError as e:
           for dir in skills/*/; do
             name=$(basename "$dir")
             if ! echo "$name" | grep -qE '^[a-z0-9-]+$'; then
-              echo "❌ $name: Invalid name (use only lowercase letters, numbers, hyphens)"
+              echo "FAIL $name: Invalid name (use only lowercase letters, numbers, hyphens)"
               errors=$((errors + 1))
             else
-              echo "✅ $name: Valid name"
+              echo "OK $name: Valid name"
             fi
           done
           if [ $errors -gt 0 ]; then
@@ -106,36 +50,20 @@ except yaml.YAMLError as e:
 
       - name: Validate Test Scenarios
         run: |
-          errors=0
           for dir in skills/*/; do
             name=$(basename "$dir")
             test_dir="tests/scenarios/$name"
             if [ ! -d "$test_dir" ]; then
-              echo "⚠️  $name: No test scenarios directory"
+              echo "WARN $name: No test scenarios directory"
               continue
             fi
             if [ ! -f "$test_dir/baseline.md" ]; then
-              echo "⚠️  $name: Missing baseline.md in test scenarios"
+              echo "WARN $name: Missing baseline.md"
             fi
             if [ ! -f "$test_dir/pressure-test.md" ]; then
-              echo "⚠️  $name: Missing pressure-test.md in test scenarios"
+              echo "WARN $name: Missing pressure-test.md"
             fi
             if [ -f "$test_dir/baseline.md" ] && [ -f "$test_dir/pressure-test.md" ]; then
-              echo "✅ $name: Test scenarios found"
+              echo "OK $name: Test scenarios found"
             fi
           done
-
-      - name: Validate openclaw.plugin.json
-        run: |
-          python3 -c "
-import json, sys
-with open('openclaw.plugin.json') as f:
-    plugin = json.load(f)
-required = ['id', 'name', 'description', 'version', 'skills']
-for field in required:
-    if field not in plugin:
-        print(f'❌ Missing required field: {field}')
-        sys.exit(1)
-print('✅ openclaw.plugin.json is valid')
-print(f'   Skills listed: {len(plugin[\"skills\"])}')
-"
