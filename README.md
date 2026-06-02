@@ -55,6 +55,19 @@ description: "Use when [describe triggering conditions]"
 EOF
 ```
 
+### 移植现有 Skills
+
+```bash
+# 列出所有可移植的 skills
+python scripts/migrate.py --list
+
+# 移植所有 skills
+python scripts/migrate.py --all
+
+# 移植指定的 skill
+python scripts/migrate.py brainstorming
+```
+
 ## 📂 目录结构
 
 ```

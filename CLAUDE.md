@@ -14,6 +14,68 @@ This is a cross-platform compatible skills repository for AI agents. Skills here
 
 ---
 
+## 📥 Migrating Existing Skills
+
+### Quick Start
+
+```bash
+# 列出所有可移植的 skills
+python scripts/migrate.py --list
+
+# 移植所有 skills
+python scripts/migrate.py --all
+
+# 移植指定的 skill
+python scripts/migrate.py brainstorming
+
+# 移植多个 skills
+python scripts/migrate.py brainstorming systematic-debugging
+```
+
+### Available Skills to Migrate
+
+| Category | Skills |
+|----------|--------|
+| **Development Process** | brainstorming, writing-plans, executing-plans, test-driven-development, systematic-debugging, verification-before-completion, finishing-a-development-branch, subagent-driven-development |
+| **Code Quality** | receiving-code-review, requesting-code-review, using-git-worktrees |
+| **Skill Development** | skill-creator, writing-skills, using-superpowers |
+| **Document Processing** | docx, pdf, pptx, xlsx |
+| **Frontend Design** | frontend-design |
+| **MCP** | build-mcp-server |
+| **Other** | claude-hud-statusline, claude-md-improver, dispatching-parallel-agents, flyai, weather-forecast |
+
+### Migration Process
+
+```
+1. Run migration script
+   python scripts/migrate.py skill-name
+
+2. Review the migrated skill
+   - Check SKILL.md format
+   - Verify frontmatter (name, description)
+   - Ensure cross-platform compatibility
+
+3. Add test scenarios (if not already present)
+   mkdir -p tests/scenarios/[skill-name]
+   cp tests/scenarios/_template/* tests/scenarios/[skill-name]/
+
+4. Commit and push
+   git add .
+   git commit -m "Migrate [skill-name] skill"
+   git push
+```
+
+### Post-Migration Checklist
+
+- [ ] SKILL.md format is correct
+- [ ] `name` uses only letters, numbers, hyphens
+- [ ] `description` starts with "Use when..."
+- [ ] Test scenarios exist in `tests/scenarios/`
+- [ ] `python scripts/sync.py` runs without errors
+- [ ] GitHub Actions CI passes
+
+---
+
 ## 🚨 Skill Development Workflow (MANDATORY)
 
 **This is the ONLY approved workflow for creating, modifying, or deploying skills.**
