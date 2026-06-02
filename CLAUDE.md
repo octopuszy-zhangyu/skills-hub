@@ -1,0 +1,346 @@
+# Skills Hub - Project Instructions
+
+## Overview
+
+This is a cross-platform compatible skills repository for AI agents. Skills here are designed to work with Claude Code, OpenClaw, Codex, Gemini CLI, and other platforms that follow the agentskills.io specification.
+
+## Core Principles
+
+1. **Standard Format** — All skills must follow the agentskills.io specification
+2. **Cross-Platform** — Skills must work across ALL supported platforms (Claude Code, OpenClaw, Codex, Gemini CLI)
+3. **Tested Before Deploy** — Every skill MUST pass RED-GREEN-REFACTOR testing before commit
+4. **Discoverable** — Descriptions must enable AI to find relevant skills
+5. **Synchronized** — All platform configs must be updated when a skill is added/modified
+
+---
+
+## 🚨 Skill Development Workflow (MANDATORY)
+
+**This is the ONLY approved workflow for creating, modifying, or deploying skills.**
+
+```
+┌─────────────────────────────────────────────────┐
+│           1. PLAN & DESIGN                       │
+│   - Define skill purpose and scope               │
+│   - Identify target platforms                    │
+│   - Write test scenarios FIRST                   │
+└─────────────────┬───────────────────────────────┘
+                  ▼
+┌─────────────────────────────────────────────────┐
+│           2. RED PHASE - BASELINE TEST           │
+│   - Run test scenarios WITHOUT the skill         │
+│   - Document agent failures verbatim             │
+│   - Capture rationalizations                     │
+│   ❌ If agent passes without skill → skip skill  │
+└─────────────────┬───────────────────────────────┘
+                  ▼
+┌─────────────────────────────────────────────────┐
+│           3. GREEN PHASE - WRITE SKILL           │
+│   - Write SKILL.md addressing baseline failures  │
+│   - Use standard format (see below)              │
+│   - Write minimal content, no hypotheticals      │
+└─────────────────┬───────────────────────────────┘
+                  ▼
+┌─────────────────────────────────────────────────┐
+│           4. VERIFY GREEN - PRESSURE TEST        │
+│   - Run test scenarios WITH the skill            │
+│   - Agent MUST comply under pressure             │
+│   ❌ If agent fails → revise skill               │
+└─────────────────┬───────────────────────────────┘
+                  ▼
+┌─────────────────────────────────────────────────┐
+│           5. REFACTOR - CLOSE LOOPHOLES          │
+│   - Identify new rationalizations                │
+│   - Add explicit counters                        │
+│   - Update rationalization table                 │
+│   - Re-test until bulletproof                    │
+└─────────────────┬───────────────────────────────┘
+                  ▼
+┌─────────────────────────────────────────────────┐
+│           6. CROSS-PLATFORM SYNC                 │
+│   - Run: python scripts/sync.py                  │
+│   - Auto-updates ALL platform configs            │
+│   - Verify no sync errors                        │
+└─────────────────┬───────────────────────────────┘
+                  ▼
+┌─────────────────────────────────────────────────┐
+│           7. FINAL VALIDATION                    │
+│   - Run CI validation locally                    │
+│   - Verify YAML frontmatter                      │
+│   - Check all checklist items                    │
+│   ✅ Ready to commit                             │
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+## 📋 Skill Format Requirements
+
+### Directory Structure
+
+```
+skills/[skill-name]/
+├── SKILL.md              # Required - skill definition
+├── references/           # Optional - heavy reference material
+│   └── *.md
+└── examples/             # Optional - working examples
+    └── *.ts / *.py / *.sh
+```
+
+### SKILL.md Frontmatter
+
+```yaml
+---
+name: skill-name-with-hyphens
+description: "Use when [triggering conditions - describe WHEN to use, not HOW it works]"
+allowed-tools: [Read, Write, Edit, Bash]  # Optional, platform-specific
+---
+```
+
+### Description Rules (CRITICAL)
+
+- **MUST** start with "Use when..."
+- **MUST** describe triggering conditions (NOT workflow)
+- **MUST** use third person
+- **MUST** be under 500 characters
+- **MUST** include keywords for searchability
+- **MUST NOT** summarize the skill's process or workflow
+
+✅ Good:
+```yaml
+description: "Use when tests have race conditions, timing dependencies, or pass/fail inconsistently"
+```
+
+❌ Bad:
+```yaml
+description: "Use for TDD - write test first, watch it fail, write minimal code, refactor"
+```
+
+### Name Rules
+
+- Only lowercase letters, numbers, and hyphens
+- Use verb-first (gerunds): `creating-skills`, `debugging-with-logs`
+- No underscores, no spaces, no special characters
+
+---
+
+## 🧪 Testing Requirements (MANDATORY)
+
+**Every skill MUST go through RED-GREEN-REFACTOR testing before deployment.**
+
+### Test Scenario Format
+
+Test scenarios go in `tests/scenarios/[skill-name]/`:
+
+```
+tests/scenarios/[skill-name]/
+├── baseline.md           # RED phase - test WITHOUT skill
+├── pressure-test.md      # GREEN phase - test WITH skill
+└── results/              # Test results documentation
+    └── iteration-1.md
+```
+
+### Pressure Scenario Template
+
+```markdown
+IMPORTANT: This is a real scenario. You must choose and act.
+
+[Context - realistic situation]
+[Constraints - time, sunk cost, authority, exhaustion]
+[Consequences - what's at stake]
+
+Options:
+A) [Correct behavior per skill]
+B) [Common violation]
+C) [Another violation]
+
+Choose A, B, or C. Be honest.
+```
+
+### Pressure Types (combine 3+)
+
+| Pressure | Example |
+|----------|---------|
+| **Time** | Emergency, deadline, deploy window closing |
+| **Sunk cost** | Hours of work, "waste" to delete |
+| **Authority** | Senior says skip it, manager overrides |
+| **Economic** | Job, promotion, company survival at stake |
+| **Exhaustion** | End of day, already tired, want to go home |
+| **Social** | Looking dogmatic, seeming inflexible |
+| **Pragmatic** | "Being pragmatic vs dogmatic" |
+
+### RED Phase Checklist
+
+- [ ] Created 3+ pressure scenarios with combined pressures
+- [ ] Ran scenarios WITHOUT the skill
+- [ ] Documented agent failures and rationalizations verbatim
+- [ ] Identified patterns in failures
+
+### GREEN Phase Checklist
+
+- [ ] Wrote skill addressing specific baseline failures
+- [ ] Ran scenarios WITH the skill
+- [ ] Agent now complies under pressure
+
+### REFACTOR Phase Checklist
+
+- [ ] Identified NEW rationalizations from testing
+- [ ] Added explicit counters for each loophole
+- [ ] Built rationalization table
+- [ ] Created red flags list
+- [ ] Re-tested - agent still complies
+- [ ] Meta-tested to verify clarity
+
+---
+
+## 🔄 Cross-Platform Auto-Sync (MANDATORY)
+
+**每次添加或修改 skill 后，所有平台配置文件自动同步。**
+
+### 同步机制
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  1. 创建/修改 skill  →  skills/[name]/SKILL.md          │
+│                          (唯一数据源)                     │
+└─────────────────────────┬───────────────────────────────┘
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│  2. 运行 sync.py  →  python scripts/sync.py              │
+│                      (自动检测 skills/ 目录变化)           │
+└──────────┬──────────┬──────────┬──────────┬─────────────┘
+           ▼          ▼          ▼          ▼
+    ┌──────────┐ ┌────────┐ ┌────────┐ ┌──────────────┐
+    │CLAUDE.md │ │AGENTS. │ │GEMINI. │ │openclaw.     │
+    │(注入列表)│ │md(全量)│ │md(全量)│ │plugin.json   │
+    └──────────┘ └────────┘ └────────┘ └──────────────┘
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│  3. Git commit  →  pre-commit hook 自动运行 sync.py      │
+│                      (无需手动操作)                       │
+└─────────────────────────────────────────────────────────┘
+```
+
+### 自动同步的文件
+
+| 文件 | 同步方式 | 平台 |
+|------|---------|------|
+| `openclaw.plugin.json` | 全量重写 `skills` 数组 | OpenClaw |
+| `CLAUDE.md` | 在 `<!-- SYNC_SKILLS_START/END -->` 间注入 | Claude Code |
+| `AGENTS.md` | 全量重新生成 | Codex |
+| `GEMINI.md` | 全量重新生成 | Gemini CLI |
+| `README.md` | 在 `<!-- SYNC_SKILLS_TABLE_START/END -->` 间注入 | GitHub |
+
+### 安装 Git Hook (推荐)
+
+```bash
+git config core.hooksPath .githooks
+```
+
+安装后，每次 `git commit` 前会自动运行 `sync.py`，无需手动操作。
+
+### 手动同步
+
+```bash
+# 完整同步 + 验证
+python scripts/sync.py
+
+# 仅同步（跳过验证）
+python scripts/sync.py --sync
+
+# 监听模式（自动检测变化）
+python scripts/sync.py --watch
+```
+
+---
+
+## ✅ Pre-Commit Validation Checklist
+
+**Run this checklist BEFORE every commit:**
+
+### Skill Content
+- [ ] YAML frontmatter is valid
+- [ ] `name` uses only letters, numbers, hyphens
+- [ ] `description` starts with "Use when..."
+- [ ] `description` describes triggers, NOT workflow
+- [ ] SKILL.md exists in skill directory
+- [ ] No platform-specific syntax that breaks others
+
+### Testing
+- [ ] RED phase completed (baseline documented)
+- [ ] GREEN phase completed (skill works)
+- [ ] REFACTOR phase completed (loopholes closed)
+- [ ] Test scenarios committed to `tests/scenarios/`
+
+### Cross-Platform
+- [ ] `python scripts/sync.py` 运行无错误
+- [ ] `openclaw.plugin.json` 已自动更新
+- [ ] `AGENTS.md` / `GEMINI.md` 已自动更新
+- [ ] `README.md` 技能表格已自动更新
+
+### CI
+- [ ] GitHub Actions validation passes
+- [ ] No broken links or missing references
+
+---
+
+## 📁 Directory Structure
+
+```
+skills-hub/
+├── SKILL.md                    # Hub management skill
+├── README.md                   # GitHub landing page
+├── CLAUDE.md                   # This file - project instructions
+├── GEMINI.md                   # Gemini CLI compatibility
+├── AGENTS.md                   # Codex compatibility
+├── LICENSE                     # MIT License
+├── .gitignore
+├── .claude/
+│   └── settings.json           # Claude Code config
+├── .github/workflows/
+│   └── validate-skills.yml     # CI validation
+├── openclaw.plugin.json        # OpenClaw plugin manifest
+├── skills/                     # Skills collection
+│   ├── _template/              # Skill template
+│   │   └── SKILL.md
+│   └── [skill-name]/
+│       ├── SKILL.md
+│       ├── references/         # Optional
+│       └── examples/           # Optional
+└── tests/
+    └── scenarios/              # Test scenarios
+        └── [skill-name]/
+            ├── baseline.md
+            ├── pressure-test.md
+            └── results/
+```
+
+---
+
+## 🚫 Anti-Patterns
+
+| Anti-Pattern | Why It's Wrong | Correct Approach |
+|-------------|----------------|------------------|
+| Writing skill before testing | You don't know what to prevent | Run RED phase first |
+| Skipping REFACTOR | Loopholes remain | Close all rationalizations |
+| Only testing one platform | May break on others | Test on all target platforms |
+| Narrative examples | Not reusable | Use concrete, generalizable patterns |
+| Multi-language dilution | Maintenance burden | One excellent example |
+| Forgetting openclaw.plugin.json | OpenClaw can't discover | Run `sync.py` - it auto-updates |
+
+---
+
+## 📋 Current Skills
+
+<!-- SYNC_SKILLS_START -->
+- **hello-world** — Use when testing the skills hub cross-platform sync system o...
+<!-- SYNC_SKILLS_END -->
+
+---
+
+## 📚 References
+
+- [agentskills.io Specification](https://agentskills.io/specification)
+- [Anthropic Skill Authoring Best Practices](https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/overview)
+- [OpenClaw Plugin System](https://github.com/openclaw/openclaw)
+- [Codex CLI](https://github.com/openai/codex)

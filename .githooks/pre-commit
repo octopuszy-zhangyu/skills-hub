@@ -1,0 +1,27 @@
+#!/bin/bash
+# Pre-commit hook: Auto-sync all platform configs before commit
+#
+# 安装方式:
+#   git config core.hooksPath .githooks
+#
+# 这样每次 git commit 前都会自动运行 sync.py，
+# 确保 CLAUDE.md, AGENTS.md, GEMINI.md, README.md, openclaw.plugin.json
+# 始终与 skills/ 目录保持同步。
+
+echo "🔄 [pre-commit] Auto-syncing cross-platform configs..."
+
+cd "$(git rev-parse --show-toplevel)" || exit 1
+
+if command -v python3 &> /dev/null; then
+    python3 scripts/sync.py --sync
+elif command -v python &> /dev/null; then
+    python scripts/sync.py --sync
+else
+    echo "⚠️  [pre-commit] Python not found, skipping sync"
+    exit 0
+fi
+
+# Stage any changes made by sync
+git add CLAUDE.md AGENTS.md GEMINI.md README.md openclaw.plugin.json 2>/dev/null
+
+echo "✅ [pre-commit] Sync complete"

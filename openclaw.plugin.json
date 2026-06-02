@@ -1,0 +1,10 @@
+{
+  "id": "skills-hub",
+  "name": "Skills Hub",
+  "description": "A cross-platform compatible AI agent skills collection supporting Claude Code, OpenClaw, Codex, and more.",
+  "version": "1.0.0",
+  "skills": [
+    "./skills/hello-world"
+  ],
+  "updated": "2026-06-02T08:36:41Z"
+}
