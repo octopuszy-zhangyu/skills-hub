@@ -4,10 +4,11 @@
 
 ## 技能列表
 
-当前共 1 个技能：
+当前共 2 个技能：
 
 | Skill | 描述 | 测试 |
 |-------|------|-------|
+| [multi-cloud-docs-search](skills/multi-cloud-docs-search/) | Use when users ask about cloud provider documentation, produ... | ✅ |
 | [weather-forecast](skills/weather-forecast/) | Use when users ask about weather, weather forecast, temperat... | ✅ |
 
 ## 安装方式

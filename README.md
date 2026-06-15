@@ -137,6 +137,7 @@ python scripts/sync.py --sync
 <!-- SYNC_SKILLS_TABLE_START -->
 | Skill | 描述 | 测试 |
 |-------|------|-------|
+| [multi-cloud-docs-search](skills/multi-cloud-docs-search/) | Use when users ask about cloud provider documentation, produ... | ✅ |
 | [weather-forecast](skills/weather-forecast/) | Use when users ask about weather, weather forecast, temperat... | ✅ |
 <!-- SYNC_SKILLS_TABLE_END -->
 

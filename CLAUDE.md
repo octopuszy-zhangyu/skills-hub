@@ -454,6 +454,7 @@ Before every push:
 ## 📋 Current Skills
 
 <!-- SYNC_SKILLS_START -->
+- **multi-cloud-docs-search** — Use when users ask about cloud provider documentation, produ...
 - **weather-forecast** — Use when users ask about weather, weather forecast, temperat...
 <!-- SYNC_SKILLS_END -->
 
