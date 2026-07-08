@@ -4,8 +4,9 @@
   "description": "A cross-platform compatible AI agent skills collection supporting Claude Code, OpenClaw, Codex, and more.",
   "version": "1.0.0",
   "skills": [
+    "./skills/generate-ctyun-ppt",
     "./skills/multi-cloud-docs-search",
     "./skills/weather-forecast"
   ],
-  "updated": "2026-06-15T07:08:53Z"
+  "updated": "2026-07-08T08:30:05Z"
 }

@@ -1,0 +1,6 @@
+interface:
+  display_name: "ctyun PPT Replicator"
+  short_description: "Recreate ctyun slide screenshots as editable PPTX."
+  default_prompt: "Use $generate-ctyun-ppt to faithfully reconstruct editable PPT slides from my reference screenshots and optional PPTX template."
+policy:
+  allow_implicit_invocation: true
