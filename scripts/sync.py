@@ -124,6 +124,17 @@ def sync_openclaw_plugin_json(skills):
     print(f"  ✅ openclaw.plugin.json: {len(skills)} skills")
 
 
+def get_display_desc(desc):
+    """优先提取中文描述部分用于表格与文档展示"""
+    if not desc:
+        return ""
+    # 如果包含括号中的中文说明 (中文...)，优先取括号内的中文
+    match = re.search(r'[\（\(]([^A-Za-z\n]*?[\u4e00-\u9fa5]+.*?)[\）\)]', desc)
+    if match:
+        return match.group(1).strip()
+    return desc
+
+
 def generate_skill_table(skills, include_test_col=False):
     """生成统一的技能表格 Markdown"""
     if not skills:
@@ -133,7 +144,8 @@ def generate_skill_table(skills, include_test_col=False):
     lines.append("| Skill | 描述 |" + (" 测试 |" if include_test_col else ""))
     lines.append("|-------|------|" + ("-------|" if include_test_col else ""))
     for name, desc, has_tests, entry in skills:
-        desc_short = desc[:60] + "..." if len(desc) > 60 else desc
+        display_desc = get_display_desc(desc)
+        desc_short = display_desc[:80] + "..." if len(display_desc) > 80 else display_desc
         test_badge = "✅" if has_tests else "❌"
         row = f"| [{name}](skills/{entry}/) | {desc_short} |"
         if include_test_col:
@@ -149,7 +161,8 @@ def generate_skill_list(skills):
 
     lines = []
     for name, desc, has_tests, entry in skills:
-        desc_short = desc[:60] + "..." if len(desc) > 60 else desc
+        display_desc = get_display_desc(desc)
+        desc_short = display_desc[:80] + "..." if len(display_desc) > 80 else display_desc
         lines.append(f"- **{name}** — {desc_short}")
     return "\n".join(lines)
 

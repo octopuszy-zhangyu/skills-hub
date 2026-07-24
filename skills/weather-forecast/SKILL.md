@@ -1,6 +1,6 @@
 ---
 name: weather-forecast
-description: "Use when users ask about weather, weather forecast, temperature, today's weather, tomorrow's weather, this week's weather, or city weather conditions in China. Supports real-time weather, 7-day 3-hour interval forecasts, 15-day forecasts, and 40-day long-term forecasts. Trigger phrases include: 'weather', 'forecast', 'temperature', 'will it rain', 'hourly weather', 'next N days', 'next month'."
+description: "Use when users ask about weather, weather forecast, temperature, today's weather, tomorrow's weather, this week's weather, or city weather conditions in China (支持全国城市实时天气、7天/15天/40天天气预报与气温降水查询)。"
 ---
 
 # 天气预报技能

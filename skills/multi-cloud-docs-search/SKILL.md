@@ -1,6 +1,6 @@
 ---
 name: multi-cloud-docs-search
-description: "Use when users ask about cloud provider documentation, product pricing, service comparisons across cloud vendors, or need to search official cloud docs. Trigger phrases include: cloud provider names (aliyun/tencent/huawei/ctyun/volcengine etc.), 'price', 'pricing', 'documentation', 'how to configure', 'product list', 'specs', 'billing', 'cost comparison'. Supports 14 Chinese cloud providers including Alibaba Cloud, Tencent Cloud, Huawei Cloud, and AI platforms."
+description: "Use when users ask about cloud provider documentation, product pricing, service comparisons across cloud vendors, or need to search official cloud docs (支持阿里云、腾讯云、华为云、天翼云等14家主流云厂商官方文档、产品价格、配置规格与服务对比查询)。"
 allowed-tools: [Bash, Read, Write, Edit]
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: course-development
-description: "Use when users need to develop, design, or structure enterprise training courses (企业培训课程开发全流程指导工具，当用户说“我要开发一门课程”、“帮我设计课程”、“课程开发”、“培训课程设计”、“学员分析”、“学习目标设定”、“架构搭建”、“教学设计”、“材料编写”时触发)。"
+description: "Use when users ask about enterprise training course development, course design, learner analysis, learning objective setting, curriculum architecture, teaching design, or training material writing (用于企业培训课程全流程开发与设计。当用户提出“我要开发一门课程”、“帮我设计课程”、“课程开发”、“培训课程设计”、“学员分析”、“学习目标设定”、“架构搭建”、“教学设计”、“材料编写”等需求时触发)。"
 ---
 
 # 课程开发助手

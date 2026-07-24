@@ -1,6 +1,6 @@
 ---
 name: generate-ctyun-ppt
-description: Use when users need to faithfully reconstruct editable ctyun PowerPoint slides from user-provided reference images, screenshots, and optional PPTX templates, especially when the visible wording, icons, graphics, hierarchy, coordinates, spacing, colors, and overall composition must be replicated as closely as possible without rewriting, summarizing, polishing, or reorganizing the reference content.
+description: "Use when users need to faithfully reconstruct editable ctyun PowerPoint slides from user-provided reference images, screenshots, and optional PPTX templates (基于参考图片、截图或PPTX模板高保真重建可编辑的天翼云 PPT 幻灯片)。"
 ---
 
 # ctyun-PPT效果图复刻
