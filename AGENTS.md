@@ -4,10 +4,11 @@
 
 ## 技能列表
 
-当前共 3 个技能：
+当前共 4 个技能：
 
 | Skill | 描述 | 测试 |
 |-------|------|-------|
+| [course-development](skills/course-development/) | Use when users need to develop, design, or structure enterpr... | ✅ |
 | [generate-ctyun-ppt](skills/generate-ctyun-ppt/) | Use when users need to faithfully reconstruct editable ctyun... | ✅ |
 | [multi-cloud-docs-search](skills/multi-cloud-docs-search/) | Use when users ask about cloud provider documentation, produ... | ✅ |
 | [weather-forecast](skills/weather-forecast/) | Use when users ask about weather, weather forecast, temperat... | ✅ |
