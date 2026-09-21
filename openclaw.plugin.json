@@ -5,9 +5,9 @@
   "version": "1.0.0",
   "skills": [
     "./skills/course-development",
-    "./skills/generate-ctyun-ppt",
     "./skills/multi-cloud-docs-search",
+    "./skills/nanjing-telecom-ppt-workflow",
     "./skills/weather-forecast"
   ],
-  "updated": "2026-07-24T08:17:02Z"
+  "updated": "2026-09-21T06:48:11Z"
 }

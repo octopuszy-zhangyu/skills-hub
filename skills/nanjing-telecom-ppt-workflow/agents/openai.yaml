@@ -1,0 +1,17 @@
+interface:
+  display_name: nanjing telecom ppt workflow
+  short_description: Create and calibrate editable Nanjing Telecom (南京电信) PowerPoint
+    presentations from a user-provided template/reference and source content. Use
+    this skill when the user asks to design, redesign, generate, reproduce, or refine
+    a 南京电信汇报PPT and needs brand-locked layouts, image-generated visual bases, effect-preview
+    approval before PPT production, editable Chinese text, and export-based visual
+    calibration. Do not use for other brands or generic presentations.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

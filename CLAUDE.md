@@ -455,8 +455,8 @@ Before every push:
 
 <!-- SYNC_SKILLS_START -->
 - **course-development** — 用于企业培训课程全流程开发与设计。当用户提出“我要开发一门课程”、“帮我设计课程”、“课程开发”、“培训课程设计”、“学员分析”、“学习目标设定”、“架构搭建”...
-- **generate-ctyun-ppt** — 基于参考图片、截图或PPTX模板高保真重建可编辑的天翼云 PPT 幻灯片
 - **multi-cloud-docs-search** — 支持阿里云、腾讯云、华为云、天翼云等14家主流云厂商官方文档、产品价格、配置规格与服务对比查询
+- **nanjing-telecom-ppt-workflow** — 用于南京电信汇报PPT全流程策划、无文字底图生成、效果图确认与高保真可编辑复刻
 - **weather-forecast** — 支持全国城市实时天气、7天/15天/40天天气预报与气温降水查询
 <!-- SYNC_SKILLS_END -->
 
